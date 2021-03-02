@@ -24,7 +24,7 @@ function onDragOver(event) {
         case ModelState.unloaded: {
             modelState = ModelState.loading;
             
-            let documentId = "urn:" + "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvMzAwJTIweCUyMDMwMCUyMFByZXNzZWQlMjBBbHVtaW5pdW0lMjBWZW50LmlwdA";
+            let documentId = "urn:" + "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvRG9vci5pcHQ";
 
                 Autodesk.Viewing.Document.load(documentId, (doc) => {
                     let items = doc.getRoot().search(
@@ -39,29 +39,29 @@ function onDragOver(event) {
                         return;
                     }
 
-                    let tr = new THREE.Matrix4();
-                    tr.set(
-                        0,
-                        0,
-                        0.005,
-                        0,
-                        0.005,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0.005,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    );
+                    //let tr = new THREE.Matrix4();
+                    //tr.set(
+                    //    1,
+                    //    0,
+                    //    0,
+                    //    0,
+                    //    0,
+                    //    1,
+                    //    0,
+                    //    0,
+                    //    0,
+                    //    0,
+                    //    1,
+                    //    0,
+                    //    0,
+                    //    0,
+                    //    0,
+                    //    1
+                    //);
                     viewer
                         .loadDocumentNode(doc, items[0], {
                             keepCurrentModels: true,
-                            placementTransform: tr,
+                            //placementTransform: tr,
                         })
                         .then(function (model2) {
                             secondModel = model2;
