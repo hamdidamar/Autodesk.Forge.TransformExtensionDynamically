@@ -18,8 +18,11 @@
     <script src="js/ForgeTree.js"></script>
     <script src="js/ForgeViewer.js"></script>
 
-
+    <!--transform kodu JS tanim-->
     <script src="js/InputTransform.js"></script>
+
+    <!-- drag drop js-->
+    <script src="js/DragControls.js"></script>
 
 
 
@@ -57,7 +60,7 @@
                 </div>
             </div>
             <div class="col-sm-8 fill">
-                <div id="forgeViewer"></div>
+                <div id="forgeViewer" ondragover="onDragOver(event)" ondrop="onDrop(event)"> </div>
             </div>
         </div>
     </div>
@@ -86,6 +89,18 @@
             </div>
         </div>
     </div>
+    <!--DRAG DROP DIVS-->
+    <!--<div id="MyConytainerDiv">
+        <div id="MyViewerDiv" ondragover="onDragOver(event)" ondrop="onDrop(event)"></div>
+    </div>-->
+
+    <div id="MyCar" draggable="true" ondragstart="onDragStart(event)">
+        <img src="img/car.png" width="100%" />
+        <img id="blank" />
+    </div>
+
+
+    <!--TRANSFORM DIV-->
     <div id="MyControls" class="adsk control">
         <label>X</label>
         <input id="XAxis" type="text" />

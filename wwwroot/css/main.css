@@ -20,6 +20,9 @@ body {
 
 #forgeViewer {
     width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #f0f8ff;
 }
 
 
@@ -28,4 +31,17 @@ body {
     background-size: 24px;
     background-repeat: no-repeat;
     background-position: center;
+}
+#MyConytainerDiv {
+    width: 80%;
+    height: 100%;
+    position: relative;
+    float: left;
+}
+
+#MyCar {
+    width: 10%;
+    margin: 5%;
+    position: relative;
+    float: left;
 }

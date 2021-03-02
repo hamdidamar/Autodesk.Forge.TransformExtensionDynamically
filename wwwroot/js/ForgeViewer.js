@@ -1,4 +1,6 @@
 ﻿var viewer;
+let mainModel = null;
+let secondModel = null;
 
 function launchViewer(urn) {
     var options = {
@@ -19,6 +21,7 @@ function onDocumentLoadSuccess(doc) {
     var viewables = doc.getRoot().getDefaultGeometry();
     viewer.loadDocumentNode(doc, viewables).then(i => {
         // documented loaded, any action?
+        mainModel = i;
     });
 }
 
