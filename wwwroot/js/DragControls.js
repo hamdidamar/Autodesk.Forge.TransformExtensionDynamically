@@ -11,7 +11,7 @@ function onDragStart(event) {
     event.dataTransfer.setDragImage(img, 0, 0);
 }
 
-// Load car model
+// Load model
 const ModelState = {
     unloaded: 0,
     loading: 1,
@@ -107,31 +107,41 @@ function onDrop(event) {
     modelState = ModelState.unloaded;
 }
 
+//After load drag-drop
+document.onkeydown = event => {
+    if (!event.shiftKey)
+        return;
 
-//Autodesk.Viewing.Initializer(options, function onInitialized() {
-//    var viewerDiv = document.getElementById("forgeViewer");
-//    viewer = new Autodesk.Viewing.GuiViewer3D(viewerDiv);
-//    viewer.start();
+    if (event.code === "ArrowRight") {
+        let tr = secondModel.getPlacementTransform();
+        tr.elements[12] += 1;
+        secondModel.setPlacementTransform(tr);
+    }
 
-//    getURN(myRevitFile, function (urn) {
-//        let documentId = "urn:" + urn;
+    if (event.code === "ArrowLeft") {
+        let tr = secondModel.getPlacementTransform();
+        tr.elements[12] -= 1;
+        secondModel.setPlacementTransform(tr);
+    }
+};
 
-//        Autodesk.Viewing.Document.load(documentId, (doc) => {
-//            let items = doc.getRoot().search(
-//                {
-//                    type: "geometry",
-//                    role: "3d",
-//                },
-//                true
-//            );
-//            if (items.length === 0) {
-//                console.error("Document contains no viewables.");
-//                return;
-//            }
+document.onmousemove = event => {
+    if (!event.ctrlKey)
+        return;
 
-//            viewer.loadDocumentNode(doc, items[0], {}).then(function (model1) {
-//                mainModel = model1;
-//            });
-//        });
-//    });
-//});
+    let res = viewer.impl.hitTest(event.clientX, event.clientY, true, null, [mainModel.getModelId()]);
+    let pt = null;
+
+    if (res) {
+        pt = res.intersectPoint;
+    } else {
+        pt = viewer.impl.intersectGround(event.clientX, event.clientY);
+    }
+
+    let tr = secondModel.getPlacementTransform();
+    tr.elements[12] = pt.x;
+    tr.elements[13] = pt.y;
+    tr.elements[14] = pt.z + extraZ;
+    secondModel.setPlacementTransform(tr);
+    viewer.impl.invalidate(true, true, true);
+}
