@@ -11,6 +11,22 @@ function onDragStart(event) {
     event.dataTransfer.setDragImage(img, 0, 0);
 }
 
+// Get mouse coords
+var v1 = document.getElementById("forgeViewer");
+
+function getCoords(elem) { // crossbrowser version
+    var box = elem.getBoundingClientRect();
+    var body = document.body;
+    var docEl = document.documentElement;
+    var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+    var clientTop = docEl.clientTop || body.clientTop || 0;
+    var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+    var top = box.top + scrollTop - clientTop;
+    var left = box.left + scrollLeft - clientLeft;
+    return { top: Math.round(top), left: Math.round(left) };
+}
+
 // Load model
 const ModelState = {
     unloaded: 0,
@@ -76,8 +92,8 @@ function onDragOver(event) {
 
         case ModelState.loaded: {
             let res = viewer.impl.hitTest(
-                event.clientX,
-                event.clientY,
+                event.clientX - getCoords(v1).left,
+                event.clientY + getCoords(v1).top ,
                 true,
                 null,
                 [mainModel.getModelId()]
@@ -87,7 +103,7 @@ function onDragOver(event) {
             if (res) {
                 pt = res.intersectPoint;
             } else {
-                pt = viewer.impl.intersectGround(event.clientX, event.clientY);
+                pt = viewer.impl.intersectGround(event.clientX - getCoords(v1).left, event.clientY + getCoords(v1).top);
             }
 
             let tr = secondModel.getPlacementTransform();
@@ -129,13 +145,13 @@ document.onmousemove = event => {
     if (!event.ctrlKey)
         return;
 
-    let res = viewer.impl.hitTest(event.clientX, event.clientY, true, null, [mainModel.getModelId()]);
+    let res = viewer.impl.hitTest(event.clientX - getCoords(v1).left, event.clientY + getCoords(v1).top, true, null, [mainModel.getModelId()]);
     let pt = null;
 
     if (res) {
         pt = res.intersectPoint;
     } else {
-        pt = viewer.impl.intersectGround(event.clientX, event.clientY);
+        pt = viewer.impl.intersectGround(event.clientX - getCoords(v1).left, event.clientY + getCoords(v1).top);
     }
 
     let tr = secondModel.getPlacementTransform();
