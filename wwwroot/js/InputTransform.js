@@ -115,6 +115,9 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
         ///////////////////////////////////////////////////////////////////////////
         function onItemSelected(event) {
 
+            //set selected model 
+            _selectedModel = viewer.getAggregateSelection()[0].model;
+
             _selectedFragProxyMap = {};
 
             //component unselected
@@ -153,7 +156,8 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
                 event.fragIdsArray.forEach(function (fragId) {
 
                     var fragProxy = viewer.impl.getFragmentProxy(
-                        viewer.model,
+                        //viewer.model,
+                        _selectedModel,
                         fragId);
 
                     fragProxy.getAnimTransform();
@@ -227,7 +231,8 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
             for (var fragId in _modifiedFragIdMap) {
 
                 var fragProxy = viewer.impl.getFragmentProxy(
-                    viewer.model,
+                    //viewer.model,
+                    _selectedModel,
                     fragId);
 
                 fragProxy.getAnimTransform();
@@ -263,9 +268,9 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
         ///////////////////////////////////////////////////////////////////////////
         this.activate = function () {
 
-            viewer.select([]);
+            //viewer.select([]);
 
-            var bbox = viewer.model.getBoundingBox();
+            var bbox = _selectedModel.getBoundingBox();
 
             viewer.impl.createOverlayScene(
                 'Dotty.Viewing.Tool.TransformTool');
@@ -287,6 +292,10 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
             _transformMesh = createTransformMesh();
 
             _transformControlTx.attach(_transformMesh);
+
+            viewer.addEventListener(
+                Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED,
+                onItemSelected);
 
             viewer.addEventListener(
                 Autodesk.Viewing.SELECTION_CHANGED_EVENT,
@@ -318,6 +327,10 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
 
             viewer.removeEventListener(
                 Autodesk.Viewing.SELECTION_CHANGED_EVENT,
+                onItemSelected);
+
+            viewer.removeEventListener(
+                Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED,
                 onItemSelected);
         };
 

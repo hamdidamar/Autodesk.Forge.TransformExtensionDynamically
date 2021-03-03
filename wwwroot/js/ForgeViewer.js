@@ -1,6 +1,8 @@
 ﻿var viewer;
 let mainModel = null;
 let secondModel = null;
+var _selectedModel = null;
+
 
 function launchViewer(urn) {
     var options = {
@@ -14,6 +16,17 @@ function launchViewer(urn) {
         viewer.start();
         var documentId = 'urn:' + urn;
         Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+        //viewer.addEventListener(
+        //    Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED,
+        //    setSelectedModel);
+
+        viewer.addEventListener(
+            Autodesk.Viewing.SELECTION_CHANGED_EVENT,
+            setSelectedModel);
+
+        viewer.addEventListener(
+            Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
+            setSelectedModel);
     });
 }
 
@@ -23,6 +36,8 @@ function onDocumentLoadSuccess(doc) {
         // documented loaded, any action?
         mainModel = i;
     });
+
+    
 }
 
 function onDocumentLoadFailure(viewerErrorCode) {
@@ -37,3 +52,6 @@ function getForgeToken(callback) {
     });
 }
 
+function setSelectedModel() {
+    _selectedModel = viewer.getAggregateSelection()[0].model;
+}
