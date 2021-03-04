@@ -11,22 +11,14 @@ function launchViewer(urn) {
     };
 
     Autodesk.Viewing.Initializer(options, () => {
-        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'), { extensions: ['HandleSelectionExtension', 'TransformationExtension'] });
+        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'), { extensions: ['TransformationExtension'] });
 
         viewer.start();
+        
         var documentId = 'urn:' + urn;
         Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
-        //viewer.addEventListener(
-        //    Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED,
-        //    setSelectedModel);
 
-        viewer.addEventListener(
-            Autodesk.Viewing.SELECTION_CHANGED_EVENT,
-            setSelectedModel);
-
-        viewer.addEventListener(
-            Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
-            setSelectedModel);
+                
     });
 }
 
@@ -52,6 +44,3 @@ function getForgeToken(callback) {
     });
 }
 
-function setSelectedModel() {
-    _selectedModel = viewer.getAggregateSelection()[0].model;
-}
