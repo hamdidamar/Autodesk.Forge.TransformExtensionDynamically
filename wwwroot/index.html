@@ -89,13 +89,12 @@
         </div>
     </div>
     <!--DRAG DROP DIVS-->
-    <!--<div id="MyConytainerDiv">
-        <div id="MyViewerDiv" ondragover="onDragOver(event)" ondrop="onDrop(event)"></div>
-    </div>-->
 
-    <div id="MyCar" draggable="true" ondragstart="onDragStart(event)">
-        <img src="img/door.png" width="100%" />
-        <img id="blank" />
+    <div id="MyCar" draggable="true" style="display:flex">
+        <img id="door" onclick="setUrn('dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvRG9vci5pcHQ')" ondragstart="onDragStart(event)" src="img/door.png" width="500px" height="300px" style="margin:2px 16px 2px 2px" />
+        <img id="vent" onclick="setUrn('dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvMzAwJTIweCUyMDMwMCUyMFByZXNzZWQlMjBBbHVtaW5pdW0lMjBWZW50LmlwdA')" ondragstart="onDragStart(event)" src="img/vent.png" width="500px" height="300px" style="margin:2px 16px 2px 2px"/>
+        <img id="doorplate" onclick="setUrn('dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvSGluZ2UlMjAzMDQlMjBTUiUyMERvb3IlMjBQbGF0ZS5pcHQ')" ondragstart="onDragStart(event)" src="img/doorplate.png" width="500px" height="300px" style="margin:2px 16px 2px 2px"/>
+        <p id="ModelUrn" style="display:none"></p>
     </div>
 
 
@@ -112,8 +111,18 @@
     <!-- drag drop js-->
     <script src="js/DragControls.js"></script>
 
+    <script>
+        function setUrn(urn) {
+            document.getElementById("ModelUrn").innerText = urn;
+        }
+    </script>
+
 </body>
+
 
 
 </html>
 
+<!-- door urn :dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvRG9vci5pcHQ -->
+<!-- vent urn :dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvMzAwJTIweCUyMDMwMCUyMFByZXNzZWQlMjBBbHVtaW5pdW0lMjBWZW50LmlwdA -->
+<!-- door plate urn :dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvSGluZ2UlMjAzMDQlMjBTUiUyMERvb3IlMjBQbGF0ZS5pcHQ -->

@@ -2,13 +2,14 @@
 //let mainModel = null;
 //let secondModel = null;
 let extraZ = 0;
-
+let modelUrn = null;
 
 function onDragStart(event) {
     event.dataTransfer.effectAllowed = 'copy';
     // Hide the dragged image
-    var img = document.getElementById("blank");
-    event.dataTransfer.setDragImage(img, 0, 0);
+    var dragUrn = document.getElementById("ModelUrn");
+    modelUrn = dragUrn.innerHTML;
+    //event.dataTransfer.setDragImage(img, 0, 0);
 }
 
 // Get mouse coords
@@ -39,8 +40,8 @@ function onDragOver(event) {
     switch (modelState) {
         case ModelState.unloaded: {
             modelState = ModelState.loading;
-            
-            let documentId = "urn:" + "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZzJqcHlwcXhqdXBiYWJ6eWthOHJ0OHphZ296ejdrcnItZGVuZW1lMDEvRG9vci5pcHQ";
+
+            let documentId = "urn:" + modelUrn;
 
                 Autodesk.Viewing.Document.load(documentId, (doc) => {
                     let items = doc.getRoot().search(
