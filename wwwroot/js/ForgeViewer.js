@@ -1,6 +1,8 @@
 ﻿var viewer;
 let mainModel = null;
 let secondModel = null;
+var _selectedModel = null;
+
 
 function launchViewer(urn) {
     var options = {
@@ -9,11 +11,14 @@ function launchViewer(urn) {
     };
 
     Autodesk.Viewing.Initializer(options, () => {
-        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'), { extensions: ['HandleSelectionExtension', 'TransformationExtension'] });
+        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'), { extensions: ['TransformationExtension'] });
 
         viewer.start();
+        
         var documentId = 'urn:' + urn;
         Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+
+                
     });
 }
 
@@ -23,6 +28,8 @@ function onDocumentLoadSuccess(doc) {
         // documented loaded, any action?
         mainModel = i;
     });
+
+    
 }
 
 function onDocumentLoadFailure(viewerErrorCode) {

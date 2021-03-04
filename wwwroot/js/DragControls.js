@@ -78,6 +78,7 @@ function onDragOver(event) {
                         .loadDocumentNode(doc, items[0], {
                             keepCurrentModels: true,
                             //placementTransform: tr,
+
                         })
                         .then(function (model2) {
                             secondModel = model2;

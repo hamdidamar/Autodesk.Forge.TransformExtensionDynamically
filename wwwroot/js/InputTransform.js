@@ -115,11 +115,16 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
         ///////////////////////////////////////////////////////////////////////////
         function onItemSelected(event) {
 
+            //set selecte model
+            _selectedModel = viewer.getAggregateSelection()[0].model;
+
+
             _selectedFragProxyMap = {};
 
             //component unselected
 
-            if (!event.fragIdsArray.length) {
+
+            if (!event.selections[0].fragIdsArray.length) {
 
                 _hitPoint = null;
 
@@ -150,10 +155,11 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
                     Autodesk.Viewing.CAMERA_CHANGE_EVENT,
                     onCameraChanged);
 
-                event.fragIdsArray.forEach(function (fragId) {
+                event.selections[0].fragIdsArray.forEach(function (fragId) {
 
                     var fragProxy = viewer.impl.getFragmentProxy(
-                        viewer.model,
+                        //viewer.model,
+                        _selectedModel,
                         fragId);
 
                     fragProxy.getAnimTransform();
@@ -227,7 +233,8 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
             for (var fragId in _modifiedFragIdMap) {
 
                 var fragProxy = viewer.impl.getFragmentProxy(
-                    viewer.model,
+                    //viewer.model,
+                    _selectedModel,
                     fragId);
 
                 fragProxy.getAnimTransform();
@@ -265,7 +272,8 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
 
             viewer.select([]);
 
-            var bbox = viewer.model.getBoundingBox();
+
+            var bbox = _selectedModel.getBoundingBox();
 
             viewer.impl.createOverlayScene(
                 'Dotty.Viewing.Tool.TransformTool');
@@ -289,8 +297,10 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
             _transformControlTx.attach(_transformMesh);
 
             viewer.addEventListener(
-                Autodesk.Viewing.SELECTION_CHANGED_EVENT,
+                Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
                 onItemSelected);
+
+            console.log("Transform Tool activate");
         };
 
         ///////////////////////////////////////////////////////////////////////////
@@ -317,8 +327,11 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
                 onCameraChanged);
 
             viewer.removeEventListener(
-                Autodesk.Viewing.SELECTION_CHANGED_EVENT,
+                Autodesk.Viewing.AGGREGATE_SELECTION_CHANGED_EVENT,
                 onItemSelected);
+
+
+            console.log("Transform Tool deactivate");
         };
 
         ///////////////////////////////////////////////////////////////////////////
@@ -491,7 +504,12 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
 
         viewer.toolController.registerTool(_self.tool);
 
-        if (this.viewer.model.getInstanceTree()) {
+        //Set first model
+        if (_selectedModel == null) {
+            _selectedModel = this.viewer.model;
+        }
+
+        if (_selectedModel.getInstanceTree()) {
             _self.customize();
         } else {
             this.viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, _self.customize());
@@ -539,6 +557,8 @@ Autodesk.ADN.Viewing.Extension.TransformTool = function (viewer, options) {
 
         return guid;
     };
+
+
 };
 
 Autodesk.ADN.Viewing.Extension.TransformTool.prototype =
